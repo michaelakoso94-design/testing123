@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    .countdown {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .time-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: 2px;
+      min-width: 2ch;
+      text-align: center;
+    }
+
+    .time-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      width: 2px;
+      height: 11px;
+      background: linear-gradient(to bottom, #D9E6EF 0%, #045694 100%);
+      flex-shrink: 0;
+      margin-bottom: 20px;
+    }
+
+    .finished {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown" id="countdown">
+    <div class="time-block">
+      <span class="time-number" id="days">00</span>
+      <span class="time-label">ימים</span>
+    </div>
+    <div class="divider"></div>
+    <div class="time-block">
+      <span class="time-number" id="hours">00</span>
+      <span class="time-label">שעות</span>
+    </div>
+    <div class="divider"></div>
+    <div class="time-block">
+      <span class="time-number" id="minutes">00</span>
+      <span class="time-label">דקות</span>
+    </div>
+    <div class="divider"></div>
+    <div class="time-block">
+      <span class="time-number" id="seconds">00</span>
+      <span class="time-label">שניות</span>
+    </div>
+  </div>
+
+  <script>
+    // Target: June 11, 2026 at 22:00 Israel Daylight Time (UTC+3)
+    var target = new Date('2026-06-11T22:00:00+03:00');
+
+    function pad(n) {
+      return String(n).padStart(2, '0');
+    }
+
+    function update() {
+      var now = new Date();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = '<span class="finished">האירוע החל!</span>';
+        return;
+      }
+
+      var days    = Math.floor(diff / 86400000);
+      var hours   = Math.floor((diff % 86400000) / 3600000);
+      var minutes = Math.floor((diff % 3600000)  / 60000);
+      var seconds = Math.floor((diff % 60000)    / 1000);
+
+      document.getElementById('days').textContent    = pad(days);
+      document.getElementById('hours').textContent   = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
